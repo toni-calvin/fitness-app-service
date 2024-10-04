@@ -11,20 +11,20 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	r := gin.Default()
 
 	// Pass db to handlers using dependency injection
-	r.GET("/training-days", func(c *gin.Context) {
-		handlers.GetTrainingDays(c, db)
+	r.GET("/training", func(c *gin.Context) {
+		handlers.GetTrainings(c, db)
 	})
-	r.GET("/training-days/:id", func(c *gin.Context) {
-		handlers.GetTrainingDayByID(c, db)
+	r.GET("/training/:id", func(c *gin.Context) {
+		handlers.GetTrainingByID(c, db)
 	})
-	r.POST("/training-days", func(c *gin.Context) {
-		handlers.CreateTrainingDay(c, db)
+	r.POST("/training", func(c *gin.Context) {
+		handlers.CreateTraining(c, db)
 	})
-	r.PUT("/training-days/:id", func(c *gin.Context) {
-		handlers.UpdateTrainingDay(c, db)
+	r.PUT("/training/:id", func(c *gin.Context) {
+		handlers.UpdateTraining(c, db)
 	})
-	r.DELETE("/training-days/:id", func(c *gin.Context) {
-		handlers.DeleteTrainingDay(c, db)
+	r.DELETE("/training/:id", func(c *gin.Context) {
+		handlers.DeleteTraining(c, db)
 	})
 
 	// Additional routes...

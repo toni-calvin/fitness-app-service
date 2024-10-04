@@ -7,19 +7,19 @@ import (
 )
 
 type Exercise struct {
-	gorm.Model
-	Name         string `json:"name" gorm:"column:name"`
-	MuscleGroup  string `json:"muscle_group" gorm:"column:muscle_group"`
-	MovementType string `json:"movement_type" gorm:"column:movement_type"`
-	Notes        string `json:"notes" gorm:"column:notes"`
+	ID           uint   `json:"id" gorm:"primaryKey"`
+	Name         string `json:"name"`
+	MuscleGroup  string `json:"muscle_group"`
+	MovementType string `json:"movement_type"`
+	Notes        string `json:"notes"`
 }
 
 type Mesocycle struct {
 	gorm.Model
-	PreparationLevel int           `json:"preparation_level" gorm:"column:preparation_level"`
-	Comments         string        `json:"comments" gorm:"column:comments"`
-	Objectives       string        `json:"objectives" gorm:"column:objectives"`
-	TrainingDays     []TrainingDay `json:"training_days" gorm:"foreignKey:MesocycleID"`
+	PreparationLevel int        `json:"preparation_level" gorm:"column:preparation_level"`
+	Comments         string     `json:"comments" gorm:"column:comments"`
+	Objectives       string     `json:"objectives" gorm:"column:objectives"`
+	Trainings        []Training `json:"training_days" gorm:"foreignKey:MesocycleID"`
 }
 
 // gorm hook
@@ -31,31 +31,32 @@ func (e *Mesocycle) BeforeSave(tx *gorm.DB) (err error) {
 	return
 }
 
-type TrainingDay struct {
-	ID          uint                  `json:"id" gorm:"primaryKey"`
-	MesocycleID uint                  `json:"mesocycle_id" gorm:"index;foreignKey:MesocycleID"`
-	Date        *string               `json:"date" gorm:"column:date"`
-	TotalReps   *int                  `json:"total_reps" gorm:"column:total_reps"`
-	TotalWeight *float64              `json:"total_weight" gorm:"column:total_weight"`
-	Excercises  []TrainingDayExercise `json:"exercises" gorm:"foreignKey:TrainingDayID"`
+type Training struct {
+	ID          uint               `json:"id" gorm:"primaryKey"`
+	MesocycleID uint               `json:"mesocycle_id" gorm:"index;foreignKey:MesocycleID"`
+	Date        string             `json:"date" gorm:"column:date"`
+	TotalReps   int                `json:"total_reps" gorm:"column:total_reps"`
+	TotalWeight float64            `json:"total_weight" gorm:"column:total_weight"`
+	Excercises  []TrainingExercise `json:"exercises" gorm:"foreignKey:TrainingID"`
 }
 
-type TrainingDayExercise struct {
-	ID            uint    `json:"id" gorm:"primaryKey"`
-	TrainingDayID uint    `json:"training_day_id" gorm:"index"`
-	ExerciseID    uint    `json:"exercise_id" gorm:"index;foreignKey:ExerciseID"`
-	TotalReps     int     `json:"total_reps" gorm:"column:total_reps"`
-	TotalWeight   float64 `json:"total_weight" gorm:"column:total_weight"`
-	Notes         string  `json:"notes" gorm:"column:notes"`
-	Sets          []Set   `json:"sets" gorm:"foreignKey:TrainingDayExerciseID"`
+type TrainingExercise struct {
+	ID          uint     `json:"id" gorm:"primaryKey"`
+	TrainingID  uint     `json:"training_day_id" gorm:"index"`
+	ExerciseID  uint     `json:"exercise_id" gorm:"index"`
+	Exercise    Exercise `json:"exercise" gorm:"foreignKey:ExerciseID"`
+	TotalReps   int      `json:"total_reps"`
+	TotalWeight float64  `json:"total_weight"`
+	Notes       string   `json:"notes"`
+	Sets        []Set    `json:"sets" gorm:"foreignKey:TrainingExerciseID"`
 }
 
 type Set struct {
-	ID                    uint    `json:"id" gorm:"primaryKey"`
-	TrainingDayExerciseID uint    `json:"training_day_exercise_id" gorm:"index;foreignKey:TrainingDayExerciseID"`
-	SetNumber             int     `json:"set_number" gorm:"column:set_number"`
-	Reps                  int     `json:"reps" gorm:"column:reps"`
-	RIR                   int     `json:"rir" gorm:"column:rir"`
-	Weight                float64 `json:"weight" gorm:"column:weight"`
-	RestTime              int     `json:"rest_time" gorm:"column:rest_time"`
+	ID                 uint    `json:"id" gorm:"primaryKey"`
+	TrainingExerciseID uint    `json:"training_day_exercise_id" gorm:"index;foreignKey:TrainingExerciseID"`
+	SetNumber          int     `json:"set_number" gorm:"column:set_number"`
+	Reps               int     `json:"reps" gorm:"column:reps"`
+	RIR                int     `json:"rir" gorm:"column:rir"`
+	Weight             float64 `json:"weight" gorm:"column:weight"`
+	RestTime           int     `json:"rest_time" gorm:"column:rest_time"`
 }
