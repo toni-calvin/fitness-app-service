@@ -1,0 +1,248 @@
+[
+  {
+    "Name": "Seated Row Machine Life Fitness (Row/Rear Deltoid)",
+    "MuscleGroup": "Back, Rear Deltoid",
+    "MovementType": "Pull",
+    "Notes": "Pronated grip, pad at chest height (above sternum) - emphasis on upper back"
+  },
+  {
+    "Name": "Wide Grip Pulldown Machine Life Fitness",
+    "MuscleGroup": "Back",
+    "MovementType": "Pull",
+    "Notes": "Stretch at the top and contract well at the bottom"
+  },
+  {
+    "Name": "Low Row Unilateral Machine Hammer (MTS Row)",
+    "MuscleGroup": "Back",
+    "MovementType": "Pull",
+    "Notes": "Do not relax scapulae, contract at the end. Emphasis on upper back"
+  },
+  {
+    "Name": "Diagonal Row Unilateral Machine Hammer (MTS High Row)",
+    "MuscleGroup": "Back",
+    "MovementType": "Pull",
+    "Notes": "Slightly lean your torso towards the side you are rowing. Do not relax scapula."
+  },
+  {
+    "Name": "Pullover Unilateral Cable",
+    "MuscleGroup": "Back",
+    "MovementType": "Pull",
+    "Notes": "Torso inclined forward and slight lateral tilt towards the working lat"
+  },
+  {
+    "Name": "Facepull with Rope on Cable",
+    "MuscleGroup": "Back",
+    "MovementType": "Pull",
+    "Notes": "Cable set at head height"
+  },
+  {
+    "Name": "Standing Rear Delt Cable Row",
+    "MuscleGroup": "Back",
+    "MovementType": "Pull",
+    "Notes": "Cable set at shoulder height, static elbow"
+  },
+  {
+    "Name": "Incline Press Machine Life Fitness",
+    "MuscleGroup": "Push",
+    "MovementType": "Push",
+    "Notes": "Scapular retraction."
+  },
+  {
+    "Name": "Decline Press Machine Hammer",
+    "MuscleGroup": "Push",
+    "MovementType": "Push",
+    "Notes": ""
+  },
+  {
+    "Name": "Flat Dumbbell Press",
+    "MuscleGroup": "Push",
+    "MovementType": "Push",
+    "Notes": ""
+  },
+  {
+    "Name": "Chest Fly Machine Life Fitness",
+    "MuscleGroup": "Chest",
+    "MovementType": "Fly",
+    "Notes": ""
+  },
+  {
+    "Name": "Seated Chest Fly",
+    "MuscleGroup": "Chest",
+    "MovementType": "Fly",
+    "Notes": "At the end of the movement, focus on 'bringing the biceps together.'"
+  },
+  {
+    "Name": "Lateral Raises Lying on Gironda Row with Wrist Straps",
+    "MuscleGroup": "Shoulders",
+    "MovementType": "Raise",
+    "Notes": "Raise hands forming a Y instead of a T (do not raise hands to the sides)"
+  },
+  {
+    "Name": "Lateral Raises with Dumbbells",
+    "MuscleGroup": "Shoulders",
+    "MovementType": "Raise",
+    "Notes": "Use light weight, control technique throughout, no explosive start."
+  },
+  {
+    "Name": "Lateral Raises on Cable",
+    "MuscleGroup": "Shoulders",
+    "MovementType": "Raise",
+    "Notes": ""
+  },
+  {
+    "Name": "Lateral Raises on Bench Chest Supported",
+    "MuscleGroup": "Shoulders",
+    "MovementType": "Raise",
+    "Notes": "Kneeling on bench with chest supported. Bench set at 75º."
+  },
+  {
+    "Name": "Seated Lateral Raise Machine Life Fitness",
+    "MuscleGroup": "Shoulders",
+    "MovementType": "Raise",
+    "Notes": ""
+  },
+  {
+    "Name": "Incline Press on Smith Machine",
+    "MuscleGroup": "Chest",
+    "MovementType": "Push",
+    "Notes": "Do not lower all the way down"
+  },
+  {
+    "Name": "Calf Raises",
+    "MuscleGroup": "Calves",
+    "MovementType": "Raise",
+    "Notes": "Stretch both at the top and bottom, no cheating"
+  },
+  {
+    "Name": "Adductor Machine (Close)",
+    "MuscleGroup": "Adductors",
+    "MovementType": "Close",
+    "Notes": "Do not open excessively, focus on final contraction"
+  },
+  {
+    "Name": "45º Leg Press",
+    "MuscleGroup": "Legs",
+    "MovementType": "Push",
+    "Notes": "Do not skimp on range of motion"
+  },
+  {
+    "Name": "Horizontal Press Machine Life Fitness",
+    "MuscleGroup": "Legs",
+    "MovementType": "Push",
+    "Notes": ""
+  },
+  {
+    "Name": "Incline Hyperextensions - Hamstring Focus",
+    "MuscleGroup": "Hamstrings",
+    "MovementType": "Extension",
+    "Notes": "Set the bench as low as possible, focus on mind-muscle connection."
+  },
+  {
+    "Name": "Romanian Deadlift with Dumbbells",
+    "MuscleGroup": "Hamstrings",
+    "MovementType": "Pull",
+    "Notes": "Dumbbells close to the body, slight knee bend."
+  },
+  {
+    "Name": "Stiff-Legged Deadlift with Barbell",
+    "MuscleGroup": "Hamstrings",
+    "MovementType": "Pull",
+    "Notes": "Minimal knee bend."
+  },
+  {
+    "Name": "Bulgarian Split Squat on Smith Machine - Quad Focus",
+    "MuscleGroup": "Quadriceps",
+    "MovementType": "Push",
+    "Notes": "Support foot on the ground at bar height, do not move the foot too far forward."
+  },
+  {
+    "Name": "Bulgarian Split Squat on Smith Machine - Glute Focus",
+    "MuscleGroup": "Glutes",
+    "MovementType": "Push",
+    "Notes": "Support foot forward past the bar. Torso leans forward as you descend."
+  },
+  {
+    "Name": "Leg Extension Machine Life Fitness Bilateral",
+    "MuscleGroup": "Quadriceps",
+    "MovementType": "Extension",
+    "Notes": ""
+  },
+  {
+    "Name": "Seated Leg Curl",
+    "MuscleGroup": "Hamstrings",
+    "MovementType": "Flexion",
+    "Notes": ""
+  },
+  {
+    "Name": "Lying Leg Curl",
+    "MuscleGroup": "Hamstrings",
+    "MovementType": "Flexion",
+    "Notes": ""
+  },
+  {
+    "Name": "Abdominal Crunch",
+    "MuscleGroup": "Abdominals",
+    "MovementType": "Flexion",
+    "Notes": ""
+  },
+  {
+    "Name": "French Press with Dumbbells",
+    "MuscleGroup": "Triceps",
+    "MovementType": "Push",
+    "Notes": "Avoid flaring elbows"
+  },
+  {
+    "Name": "High Pulley Triceps Extension with Wrist Strap",
+    "MuscleGroup": "Triceps",
+    "MovementType": "Extension",
+    "Notes": "Keep pulley close to shoulder joint trajectory"
+  },
+  {
+    "Name": "Triceps Pushdown with V Bar",
+    "MuscleGroup": "Triceps",
+    "MovementType": "Push",
+    "Notes": "Elbows close to body"
+  },
+  {
+    "Name": "Unilateral Katana Extension",
+    "MuscleGroup": "Triceps",
+    "MovementType": "Extension",
+    "Notes": "Reach full extension during eccentric phase"
+  },
+  {
+    "Name": "Triceps Extension on Cable (Single Arm with Rope)",
+    "MuscleGroup": "Triceps",
+    "MovementType": "Extension",
+    "Notes": ""
+  },
+  {
+    "Name": "Unilateral Dumbbell Curl",
+    "MuscleGroup": "Biceps",
+    "MovementType": "Flexion",
+    "Notes": "Slight torso inclination when curling."
+  },
+  {
+    "Name": "Bilateral Dumbbell Curl",
+    "MuscleGroup": "Biceps",
+    "MovementType": "Flexion",
+    "Notes": "Both arms at the same time. Don't forget supination."
+  },
+  {
+    "Name": "Bayesian Curl on Cable",
+    "MuscleGroup": "Biceps",
+    "MovementType": "Flexion",
+    "Notes": "Shoulder joint completely static, only biceps work"
+  },
+  {
+    "Name": "Curl on Scott Bench Machine",
+    "MuscleGroup": "Biceps",
+    "MovementType": "Flexion",
+    "Notes": "Squeeze fully at the top of the concentric phase"
+  },
+  {
+    "Name": "Kaz Press on Smith Machine",
+    "MuscleGroup": "Triceps",
+    "MovementType": "Push",
+    "Notes": "Bar at face height, elbows slightly tucked in"
+  }
+]
