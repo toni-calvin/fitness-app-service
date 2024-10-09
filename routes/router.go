@@ -2,7 +2,9 @@ package routes
 
 import (
 	"app/fitness-app-service/handlers"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -10,7 +12,15 @@ import (
 func SetupRouter(db *gorm.DB) *gin.Engine {
 	r := gin.Default()
 
-	// Pass db to handlers using dependency injection
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:8081"}, // Add the origin of your frontend
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
 	r.GET("/training", func(c *gin.Context) {
 		handlers.GetTrainings(c, db)
 	})
@@ -27,6 +37,9 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		handlers.DeleteTraining(c, db)
 	})
 
-	// Additional routes...
+	r.GET("/exercises", func(c *gin.Context) {
+		handlers.GetExcercises(c, db)
+	})
+
 	return r
 }

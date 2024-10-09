@@ -8,10 +8,10 @@ import (
 
 type Exercise struct {
 	ID           uint   `json:"id" gorm:"primaryKey"`
-	Name         string `json:"name"`
-	MuscleGroup  string `json:"muscle_group"`
-	MovementType string `json:"movement_type"`
-	Notes        string `json:"notes"`
+	Name         string `json:"Name"`
+	MuscleGroup  string `json:"MuscleGroup"`
+	MovementType string `json:"MovementType"`
+	Notes        string `json:"Notes"`
 }
 
 type Mesocycle struct {

@@ -21,6 +21,17 @@ func GetTrainings(c *gin.Context, db *gorm.DB) {
 	c.JSON(http.StatusOK, Trainings)
 }
 
+func GetExcercises(c *gin.Context, db *gorm.DB) {
+	var Excercises []models.Exercise
+	fmt.Println("Getting exercises")
+	if err := db.Find(&Excercises).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	fmt.Println("Exercises: ", Excercises)
+	c.JSON(http.StatusOK, Excercises)
+}
+
 func GetTrainingByID(c *gin.Context, db *gorm.DB) {
 	var Training models.Training
 	id := c.Param("id")

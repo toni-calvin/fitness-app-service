@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"app/fitness-app-service/database"
 	"app/fitness-app-service/models"
 	"bytes"
 	"encoding/json"
@@ -15,14 +16,6 @@ import (
 	"gorm.io/gorm"
 )
 
-func CleanTestDatabase(db *gorm.DB) {
-	db.Exec("DROP TABLE IF EXISTS trainings CASCADE;")
-	db.Exec("DROP TABLE IF EXISTS excercises CASCADE;")
-	db.Exec("DROP TABLE IF EXISTS mesocycles CASCADE;")
-	db.Exec("DROP TABLE IF EXISTS sets CASCADE;")
-	db.Exec("DROP TABLE IF EXISTS training_excercises CASCADE;")
-}
-
 func SetupTestDatabase() *gorm.DB {
 	fmt.Println("Setting up db")
 	dsn := "host=localhost user=postgres password=notsecurepassword dbname=test_fitness_db port=5432 sslmode=disable"
@@ -31,7 +24,7 @@ func SetupTestDatabase() *gorm.DB {
 		fmt.Println(err)
 	}
 	err = db.Transaction(func(tx *gorm.DB) error {
-		CleanTestDatabase(tx)
+		database.CleanTestDatabase(tx)
 		if err := tx.AutoMigrate(&models.Mesocycle{}, &models.TrainingExercise{}, &models.Training{}, &models.Exercise{}, &models.Set{}); err != nil {
 			return err
 		}
