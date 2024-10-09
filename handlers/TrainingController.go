@@ -57,30 +57,39 @@ func CreateTraining(c *gin.Context, db *gorm.DB) {
 }
 
 func UpdateTraining(c *gin.Context, db *gorm.DB) {
-	var Training models.Training
-
+	var input models.Training
+	var existingTraining models.Training
 	id := c.Param("id")
-	fmt.Println("Id to update: " + id)
-	fmt.Printf("%+v\n", Training)
 
-	// Find the existing training day
-	if err := db.Preload("Excercises.Sets").First(&Training, id).Error; err != nil {
+	if err := db.Preload("Excercises.Sets").First(&existingTraining, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Training day not found"})
 		return
 	}
 
-	if err := c.ShouldBindJSON(&Training); err != nil {
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	updateData := map[string]interface{}{}
 
-	// Perform the update
-	if err := db.Model(&Training).Updates(Training).Error; err != nil {
+	if input.TotalReps != existingTraining.TotalReps {
+		updateData["total_reps"] = input.TotalReps
+	}
+
+	if input.TotalWeight != existingTraining.TotalWeight {
+		updateData["total_weight"] = input.TotalWeight
+	}
+
+	if input.Date != "" {
+		updateData["date"] = input.Date
+	}
+
+	if err := db.Model(&existingTraining).Updates(updateData).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, Training)
+	c.JSON(http.StatusOK, existingTraining)
 }
 
 func DeleteTraining(c *gin.Context, db *gorm.DB) {

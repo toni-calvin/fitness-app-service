@@ -11,24 +11,39 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func CleanTestDatabase(db *gorm.DB) {
-	db.Delete(models.Training{})
-	db.Delete(&models.Set{})
-	db.Delete(&models.TrainingExercise{})
-	db.Delete(&models.Training{})
-	db.Delete(&models.Mesocycle{})
+	db.Exec("DROP TABLE IF EXISTS trainings CASCADE;")
+	db.Exec("DROP TABLE IF EXISTS excercises CASCADE;")
+	db.Exec("DROP TABLE IF EXISTS mesocycles CASCADE;")
+	db.Exec("DROP TABLE IF EXISTS sets CASCADE;")
+	db.Exec("DROP TABLE IF EXISTS training_excercises CASCADE;")
 }
 
 func SetupTestDatabase() *gorm.DB {
 	fmt.Println("Setting up db")
-	db, _ := gorm.Open(sqlite.Open("../testfitnessapp.db"), &gorm.Config{})
-	CleanTestDatabase(db)
-	db.AutoMigrate(&models.Mesocycle{}, &models.TrainingExercise{}, &models.Training{}, &models.Exercise{}, &models.Set{})
-	db = SeedTestDatabase(db)
+	dsn := "host=localhost user=postgres password=notsecurepassword dbname=test_fitness_db port=5432 sslmode=disable"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = db.Transaction(func(tx *gorm.DB) error {
+		CleanTestDatabase(tx)
+		if err := tx.AutoMigrate(&models.Mesocycle{}, &models.TrainingExercise{}, &models.Training{}, &models.Exercise{}, &models.Set{}); err != nil {
+			return err
+		}
+		SeedTestDatabase(tx)
+		return nil
+	})
+
+	if err != nil {
+		fmt.Println("Error setting up database:", err)
+		return nil
+	}
+
 	return db
 }
 
@@ -62,40 +77,30 @@ func SeedTestDatabase(db *gorm.DB) *gorm.DB {
 		PreparationLevel: 5,
 		Comments:         "Test comments",
 		Objectives:       "Test objectives",
+		Trainings:        []models.Training{},
 	}
 
-	if err := db.Create(&mesocycle).Error; err != nil {
-		fmt.Println("Error creating Mesocycle:", err)
-		return nil
-	}
 	Training := models.Training{
 		MesocycleID: mesocycle.ID,
 		Date:        "2024-10-03",
 		TotalReps:   50,
 		TotalWeight: 500.0,
+		Excercises:  []models.TrainingExercise{},
 	}
 
-	if err := db.Create(&Training).Error; err != nil {
-		fmt.Println("Error creating Training", err)
+	mesocycle.Trainings = append(mesocycle.Trainings, Training)
+
+	if err := db.Create(&mesocycle).Error; err != nil {
+		fmt.Println("Error creating Mesocycle:", err)
 		return nil
 	}
-
-	id := fmt.Sprintf("%d", Training.ID)
-
-	fmt.Printf("Training: %s inserted\n", id)
-	var inserted, err = db.Get(id)
-	if err != false {
-		fmt.Println("Error retrieving Training", err)
-		return nil
-	}
-	fmt.Printf("%+v\n", inserted)
 
 	return db
 }
 
 func TestGetTrainings(t *testing.T) {
-	db := SetupTestDatabase() // Initialize the test database
-	router := SetupRouter(db) // Pass the db into the router
+	db := SetupTestDatabase()
+	router := SetupRouter(db)
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("GET", "/training", nil)
@@ -110,11 +115,11 @@ func TestGetTrainings(t *testing.T) {
 }
 
 func TestGetTraining(t *testing.T) {
-	db := SetupTestDatabase() // Initialize the test database
-	router := SetupRouter(db) // Pass the db into the router
+	db := SetupTestDatabase()
+	router := SetupRouter(db)
 
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/training/1", nil) // Assuming ID 1
+	req, _ := http.NewRequest("GET", "/training/1", nil)
 	router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
@@ -122,20 +127,17 @@ func TestGetTraining(t *testing.T) {
 	var response models.Training
 	err := json.Unmarshal(w.Body.Bytes(), &response)
 	assert.Nil(t, err)
-	assert.Equal(t, "2024-10-03", response.Date) // Check if the correct day is returned
+	assert.Equal(t, "2024-10-03", response.Date)
 }
 
-// Test AddTraining (POST /training)
 func TestAddTraining(t *testing.T) {
-	db := SetupTestDatabase() // Initialize the test database
-	router := SetupRouter(db) // Pass the db into the router
-
+	db := SetupTestDatabase()
+	router := SetupRouter(db)
 	newDay := models.Training{
 		MesocycleID: 1,
 		Date:        "2024-10-10",
 	}
 
-	// Marshal the struct into JSON
 	jsonBody, err := json.Marshal(newDay)
 	if err != nil {
 		fmt.Println("Error marshalling the JSON", err)
@@ -151,15 +153,13 @@ func TestAddTraining(t *testing.T) {
 	var response models.Training
 	err = json.Unmarshal(w.Body.Bytes(), &response)
 	assert.Nil(t, err)
-	assert.Equal(t, "2024-10-10", response.Date) // Check if the new day is created correctly
+	assert.Equal(t, "2024-10-10", response.Date)
 }
 
-// Test UpdateTraining (PUT /training/:day)
 func TestUpdateTraining(t *testing.T) {
 	db := SetupTestDatabase() // Initialize the test database
 	router := SetupRouter(db) // Pass the db into the router
 	updatedDay := models.Training{
-		ID:        1,
 		TotalReps: 0,
 	}
 
@@ -179,15 +179,13 @@ func TestUpdateTraining(t *testing.T) {
 	err = json.Unmarshal(w.Body.Bytes(), &response)
 	assert.Nil(t, err)
 
-	// Ensure TotalReps is not nil (assuming it is a pointer)
-	assert.Zero(t, response.TotalReps)           // Ensure the TotalReps was updated
-	assert.Equal(t, "2024-10-03", response.Date) // // Ensure it updates the correct day
+	assert.Zero(t, response.TotalReps)
+	assert.Equal(t, "2024-10-03", response.Date)
 }
 
-// Test DeleteTraining (DELETE /training/:day)
 func TestDeleteTraining(t *testing.T) {
-	db := SetupTestDatabase() // Initialize the test database
-	router := SetupRouter(db) // Pass the db into the router
+	db := SetupTestDatabase()
+	router := SetupRouter(db)
 
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("DELETE", "/training/1", nil)

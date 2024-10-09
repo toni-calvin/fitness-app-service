@@ -15,7 +15,7 @@ type Exercise struct {
 }
 
 type Mesocycle struct {
-	gorm.Model
+	ID               uint       `json:"id" gorm:"primaryKey"`
 	PreparationLevel int        `json:"preparation_level" gorm:"column:preparation_level"`
 	Comments         string     `json:"comments" gorm:"column:comments"`
 	Objectives       string     `json:"objectives" gorm:"column:objectives"`
