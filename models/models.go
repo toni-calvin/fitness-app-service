@@ -37,11 +37,15 @@ type Microcycle struct {
 }
 
 type Mesocycle struct {
-	ID               int          `json:"id" gorm:"primaryKey"`
-	StartDate        string       `json:"startDate"`
-	EndDate          string       `json:"endDate"`
-	Microcycles      []Microcycle `json:"microcycles" gorm:"foreignKey:MesocycleID"`
-	PreparationLevel int          `json:"preparationLevel"`
-	Comments         string       `json:"comments"`
-	Objectives       string       `json:"objectives"`
+	ID          int          `json:"id" gorm:"primaryKey"`
+	StartDate   string       `json:"startDate"`
+	EndDate     string       `json:"endDate"`
+	Microcycles []Microcycle `json:"microcycles" gorm:"foreignKey:MesocycleID"`
+	Objectives  string       `json:"objectives"`
+}
+
+type CreateMesocycleForm struct {
+	NumberMicrocycles string `json:"numberMicrocycles"`
+	StartDate         string `json:"startDate"`
+	Objectives        string `json:"objectives"`
 }
