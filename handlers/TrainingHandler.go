@@ -21,17 +21,6 @@ func GetTrainings(c *gin.Context, db *gorm.DB) {
 	c.JSON(http.StatusOK, Trainings)
 }
 
-func GetExcercises(c *gin.Context, db *gorm.DB) {
-	var Excercises []models.Exercise
-	fmt.Println("Getting exercises")
-	if err := db.Find(&Excercises).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	fmt.Println("Exercises: ", Excercises)
-	c.JSON(http.StatusOK, Excercises)
-}
-
 func GetTrainingByID(c *gin.Context, db *gorm.DB) {
 	var Training models.Training
 	id := c.Param("id")
@@ -83,16 +72,16 @@ func UpdateTraining(c *gin.Context, db *gorm.DB) {
 	}
 	updateData := map[string]interface{}{}
 
-	if input.TotalReps != existingTraining.TotalReps {
-		updateData["total_reps"] = input.TotalReps
+	if input.TargetMuscleGroup != "" {
+		updateData["target_muscle_group"] = input.TargetMuscleGroup
 	}
 
-	if input.TotalWeight != existingTraining.TotalWeight {
-		updateData["total_weight"] = input.TotalWeight
+	if input.PreparationLevel >= 0 && input.PreparationLevel <= 10 {
+		updateData["preparation_level"] = input.PreparationLevel
 	}
 
-	if input.Date != "" {
-		updateData["date"] = input.Date
+	if input.Comments != "" {
+		updateData["comments"] = input.Comments
 	}
 
 	if err := db.Model(&existingTraining).Updates(updateData).Error; err != nil {
