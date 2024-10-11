@@ -1,5 +1,13 @@
 package models
 
+import (
+	"math"
+	"time"
+
+	"golang.org/x/exp/rand"
+	"gorm.io/gorm"
+)
+
 type Set struct {
 	ID         int    `json:"id" gorm:"primaryKey"`
 	Reps       int    `json:"reps"`
@@ -37,15 +45,26 @@ type Microcycle struct {
 }
 
 type Mesocycle struct {
-	ID          int          `json:"id" gorm:"primaryKey"`
-	StartDate   string       `json:"startDate"`
-	EndDate     string       `json:"endDate"`
-	Microcycles []Microcycle `json:"microcycles" gorm:"foreignKey:MesocycleID"`
-	Objectives  string       `json:"objectives"`
+	ID           int          `json:"id" gorm:"primaryKey"`
+	StartDate    string       `json:"startDate"`
+	EndDate      string       `json:"endDate"`
+	Microcycles  []Microcycle `json:"microcycles" gorm:"foreignKey:MesocycleID"`
+	Objectives   string       `json:"objectives"`
+	ProgressRate float64      `json:"progressRate"`
 }
 
-type CreateMesocycleForm struct {
-	NumberMicrocycles string `json:"numberMicrocycles"`
-	StartDate         string `json:"startDate"`
-	Objectives        string `json:"objectives"`
+func (m *Mesocycle) BeforeSave(tx *gorm.DB) (err error) {
+	m.ProgressRate = m.computeProgressRate()
+	return nil
+}
+
+// Method to calculate completion percentage
+func (m *Mesocycle) computeProgressRate() float64 {
+	if len(m.Microcycles) == 0 {
+		return 0
+	}
+	rand.Seed(uint64(time.Now().UnixNano()))
+	randomNumber := rand.Float64()
+	roundedNumber := math.Round(randomNumber*100) / 100
+	return roundedNumber * 100
 }

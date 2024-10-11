@@ -41,6 +41,10 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		handlers.GetExcercises(c, db)
 	})
 
+	r.GET("/mesocycles", func(c *gin.Context) {
+		handlers.GetMesocycles(c, db)
+	})
+
 	r.POST("/mesocycles", func(c *gin.Context) {
 		handlers.CreateMesocycle(c, db)
 	})

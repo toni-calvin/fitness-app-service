@@ -10,6 +10,17 @@ import (
 	"gorm.io/gorm"
 )
 
+func GetMesocycles(c *gin.Context, db *gorm.DB) {
+	var Mesocycles []models.Mesocycle
+
+	if err := db.Preload("Microcycles").Find(&Mesocycles).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, Mesocycles)
+}
+
 func CreateMesocycle(c *gin.Context, db *gorm.DB) {
 	var mesocycleForm models.CreateMesocycleForm
 	fmt.Println("Creating Mesocycle: %+v\n", mesocycleForm)
